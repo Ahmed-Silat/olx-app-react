@@ -2,7 +2,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import App from "../../App";
 import CustomBtn from "../../components/customBtn";
-import CreateAdd from "../Adds/createNewAdd";
+import CreateAdd from "../Ads/createNewAd";
 import { getLoggedInUser } from "../../config/firebase";
 
 function Dashboard() {
