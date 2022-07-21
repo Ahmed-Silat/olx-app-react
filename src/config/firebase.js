@@ -19,13 +19,11 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
+export const auth = getAuth(app);
 
 const db = getFirestore(app);
 
-function getData(){
-  
-}
+// function getData() {}
 
 async function signUp(form) {
   const { email, password, name } = form;
@@ -64,4 +62,30 @@ function login(email, password) {
     });
 }
 
-export { signUp, login };
+function add(data) {
+  const { title, description, price } = data;
+  console.log({ data });
+  // addDoc(collection(db, "advertisement"), {
+  //   title: title,
+  //   description: description,
+  //   price: price,
+  // });
+
+  return addDoc(collection(db, "advertisement"), {
+    title: title,
+    description: description,
+    price: price,
+  });
+}
+
+function getLoggedInUser() {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      return user;
+    } else {
+      return null;
+    }
+  });
+}
+
+export { signUp, login, add, getLoggedInUser };

@@ -20,8 +20,6 @@ function Signup(props) {
     setLoading(true);
     try {
       var result = await signUp(userInfo);
-      // props.login();
-      // props.changeScreen("dashboard");
       goToDashboard();
     } catch (e) {
       alert(e.message);
