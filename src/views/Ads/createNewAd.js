@@ -3,17 +3,17 @@ import { useState } from "react";
 import Dashboard from "../dashboard/dasboard";
 import { add } from "../../config/firebase";
 
-function CreateAdd() {
+function CreateAdd(props) {
   const [data, setData] = useState({});
-  const [dashboard, setDashboard] = useState(false);
 
-  const newAdd = async() => {
+  const newAdd = async () => {
     var result = await add(data);
-    goToDashboard();
+    // goToDashboard();
+    props.setComponentName("dashboard");
   };
 
   const goToDashboard = () => {
-    setDashboard(true);
+    props.setComponentName("dashboard");
   };
 
   const updateAdd = (e, key) => {
@@ -22,32 +22,26 @@ function CreateAdd() {
 
   return (
     <div>
-      {dashboard ? (
-        <Dashboard />
-      ) : (
-        <div>
-          <input
-            type={"text"}
-            onChange={(e) => updateAdd(e, "title")}
-            placeholder="Enter title"
-          />
-          <br />
-          <input
-            type={"text"}
-            onChange={(e) => updateAdd(e, "description")}
-            placeholder="Enter description"
-          />
-          <br />
-          <input
-            type={"number"}
-            onChange={(e) => updateAdd(e, "price")}
-            placeholder="Enter price"
-          />
-          <br />
-          <button onClick={newAdd}>Create Add</button>
-          <button onClick={goToDashboard}>Go to dasboard</button>
-        </div>
-      )}
+      <input
+        type={"text"}
+        onChange={(e) => updateAdd(e, "title")}
+        placeholder="Enter title"
+      />
+      <br />
+      <input
+        type={"text"}
+        onChange={(e) => updateAdd(e, "description")}
+        placeholder="Enter description"
+      />
+      <br />
+      <input
+        type={"number"}
+        onChange={(e) => updateAdd(e, "price")}
+        placeholder="Enter price"
+      />
+      <br />
+      <button onClick={newAdd}>Create Add</button>
+      <button onClick={goToDashboard}>Go to dasboard</button>
     </div>
   );
 }

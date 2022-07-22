@@ -7,31 +7,11 @@ import Dashboard from "./views/dashboard/dasboard";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import CustomBtn from "./components/customBtn";
 import { auth, getLoggedInUser } from "./config/firebase";
+import CreateAdd from "./views/Ads/createNewAd";
+import ExistingAds from "./views/Ads/existingAds";
 
 function App() {
-  const [screen, setScreen] = useState(false);
   const [componentName, setComponentName] = useState("signin");
-  const [signup, setSignup] = useState();
-  const [signin, setSignin] = useState();
-  const [dashboard, setDashboard] = useState(false);
-
-  const changeScreen = () => {
-    setScreen(true);
-  };
-
-  // const goToDashboard = () => {
-  //   setDashboard(true);
-  // };
-
-  const goToSignup = (currentScreen) => {
-    setSignup(currentScreen);
-    changeScreen();
-  };
-
-  const goToSignin = (currentScreen) => {
-    setSignin(currentScreen);
-    changeScreen();
-  };
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -54,31 +34,12 @@ function App() {
           {componentName === "dashboard" ? (
             <Dashboard setComponentName={setComponentName} />
           ) : null}
-          {/* {screen ? <Signup /> : <Signin />} */}
-          {/* {screen ? (
-            <div>
-              {signup === "signUp" && <Signup />}
-              {signin === "signin" && <Signin />}
-            </div>
-          ) : (
-            <div>
-              <h3>Want to create an account ?</h3>
-              <CustomBtn
-                title={"Signup"}
-                color={"green"}
-                changeScreen={goToSignup}
-                currentScreen={"signUp"}
-              />
-              <br />
-              <h3>Already have an account ?</h3>
-              <CustomBtn
-                title={"Signin"}
-                color={"red"}
-                changeScreen={goToSignin}
-                currentScreen={"signin"}
-              />
-            </div>
-          )} */}
+          {componentName === "createAd" ? (
+            <CreateAdd setComponentName={setComponentName} />
+          ) : null}
+          {componentName === "existingAd" ? (
+            <ExistingAds setComponentName={setComponentName} />
+          ) : null}
         </div>
       </header>
     </div>

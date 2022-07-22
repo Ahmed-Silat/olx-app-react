@@ -5,17 +5,18 @@ import CustomBtn from "../../components/customBtn";
 import CreateAdd from "../Ads/createNewAd";
 import { getLoggedInUser } from "../../config/firebase";
 
-function Dashboard() {
+function Dashboard(props) {
   const [screen, setScreen] = useState(false);
   const [newAdd, setNewAdd] = useState(false);
   const [page, setPage] = useState(false);
 
-  const changeScreen = () => {
-    setScreen(true);
+  const existingAd = () => {
+    props.setComponentName("existingAd");
   };
 
-  const makeNewAdd = () => {
-    setNewAdd(true);
+  const makeNewAd = () => {
+    // setNewAdd(true);
+    props.setComponentName("createAd");
   };
 
   const auth = getAuth();
@@ -23,49 +24,27 @@ function Dashboard() {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
-        changeScreen();
+        // changeScreen();
+        props.setComponentName("signin");
       })
       .catch((error) => {
         // An error happened.
       });
   }
 
-  useEffect(() => {
-    const user = getLoggedInUser();
-    if (user) {
-    } else {
-      return setNewAdd(false);
-    }
-  }, []);
-
   return (
     <div>
-      {newAdd ? (
-        <CreateAdd />
-      ) : (
-        <div>
-          {screen ? (
-            <App />
-          ) : (
-            <div style={{ background: "gray", height: 300, width: 300 }}>
-              <h1>Dashboard</h1>
-              <CustomBtn
-                title={"Create New Add"}
-                color={"lightyellow"}
-                changeScreen={makeNewAdd}
-              />
-              <CustomBtn title={"My Ads"} color={"aqua"} />
-              {/* <br /> */}
-              <CustomBtn
-                title={"logout"}
-                changeScreen={logout}
-                color={"lightblue"}
-              />
-              {/* <button onClick={logout}>logout</button> */}
-            </div>
-          )}
-        </div>
-      )}
+      <div style={{ background: "gray", height: 300, width: 300 }}>
+        <h1>Dashboard</h1>
+        <CustomBtn
+          title={"Create New Ad"}
+          color={"lightyellow"}
+          changeScreen={makeNewAd}
+        />
+        <CustomBtn title={"My Ads"} color={"aqua"} changeScreen={existingAd} />
+        {/* <br /> */}
+        <CustomBtn title={"logout"} changeScreen={logout} color={"lightblue"} />
+      </div>
     </div>
   );
 }

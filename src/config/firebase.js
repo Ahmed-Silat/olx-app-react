@@ -5,7 +5,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCbLwy0j4Hteme9tBA_rspqtYhWMAgOaWI",
@@ -23,7 +23,13 @@ export const auth = getAuth(app);
 
 const db = getFirestore(app);
 
-// function getData() {}
+async function getData() {
+  const querySnapshot = await getDocs(collection(db, "users"));
+
+  querySnapshot.forEach((doc) => {
+    console.log(`${doc.id} => ${doc.data()}`);
+  });
+}
 
 async function signUp(form) {
   const { email, password, name } = form;
@@ -88,4 +94,4 @@ function getLoggedInUser() {
   });
 }
 
-export { signUp, login, add, getLoggedInUser };
+export { signUp, login, add, getLoggedInUser, getData };
