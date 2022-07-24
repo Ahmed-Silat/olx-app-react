@@ -5,7 +5,15 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+  doc,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCbLwy0j4Hteme9tBA_rspqtYhWMAgOaWI",
@@ -24,11 +32,24 @@ export const auth = getAuth(app);
 const db = getFirestore(app);
 
 async function getData() {
-  const querySnapshot = await getDocs(collection(db, "users"));
+  // const querySnapshot = await getDocs(collection(db, "advertisement"));
 
+  // querySnapshot.forEach((doc) => {
+  //   console.log(`${doc.id} => ${doc.data()}`);
+  // });
+
+  const q = query(collection(db, "advertisement"));
+
+  const querySnapshot = await getDocs(q);
+
+  let data = [];
   querySnapshot.forEach((doc) => {
-    console.log(`${doc.id} => ${doc.data()}`);
+    // doc.data() is never undefined for query doc snapshots
+    data = [...data, doc.data()];
   });
+  // console.log("firebase", data);
+
+  return data;
 }
 
 async function signUp(form) {
@@ -53,8 +74,8 @@ async function signUp(form) {
   // });
 }
 
-function login(email, password) {
-  signInWithEmailAndPassword(auth, email, password)
+async function login(email, password) {
+  await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user;
@@ -68,7 +89,7 @@ function login(email, password) {
     });
 }
 
-function add(data) {
+function ad(data) {
   const { title, description, price } = data;
   console.log({ data });
   // addDoc(collection(db, "advertisement"), {
@@ -94,4 +115,10 @@ function getLoggedInUser() {
   });
 }
 
-export { signUp, login, add, getLoggedInUser, getData };
+// async function uploadImage() {}
+
+// async function updateProfile() {}
+
+export { signUp, login, ad, getLoggedInUser, getData };
+// uploadImage,
+// updateProfile,

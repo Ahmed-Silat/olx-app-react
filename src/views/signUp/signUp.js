@@ -16,6 +16,7 @@ function Signup(props) {
       props.setComponentName("dashboard");
     } catch (e) {
       alert(e.message);
+      // props.setComponentName("signin");
     } finally {
       setLoading(false);
     }

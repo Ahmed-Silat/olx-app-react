@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import App from "../../App";
 import CustomBtn from "../../components/customBtn";
 import CreateAdd from "../Ads/createNewAd";
-import { getLoggedInUser } from "../../config/firebase";
+import { getData, getLoggedInUser } from "../../config/firebase";
+import CreateCard from "../Card/Card";
+import "./Dashboard.css";
 
 function Dashboard(props) {
   const [screen, setScreen] = useState(false);
@@ -20,6 +22,7 @@ function Dashboard(props) {
   };
 
   const auth = getAuth();
+
   function logout() {
     signOut(auth)
       .then(() => {
@@ -32,17 +35,52 @@ function Dashboard(props) {
       });
   }
 
+  const [storeData, setStoreData] = useState([]);
+  const receiveData = async () => {
+    const result = await getData();
+    setStoreData(result);
+    console.log("receiveData", storeData);
+  };
+
+  useEffect(() => {
+    const result = receiveData();
+    console.log(result);
+    // const receiveData = async () => {
+    //   const result = await getData();
+    //   setStoreData(result);
+    //   console.log("receiveData", result);
+    // };
+  }, []);
+
   return (
     <div>
       <div style={{ background: "gray", height: 300, width: 300 }}>
         <h1>Dashboard</h1>
+        {storeData.map((item) => {
+          return (
+            // <div>
+            //   <span>{item.title}</span>
+            //   <br />
+            //   <span>{item.description}</span>
+            //   <br />
+            //   <span>{item.price}</span>
+            // </div>
+            // <div className="card">
+              <CreateCard
+                title={item.title}
+                description={item.description}
+                price={item.price}
+              />
+            // </div>
+          );
+        })}
         <CustomBtn
           title={"Create New Ad"}
           color={"lightyellow"}
           changeScreen={makeNewAd}
         />
         <CustomBtn title={"My Ads"} color={"aqua"} changeScreen={existingAd} />
-        {/* <br /> */}
+
         <CustomBtn title={"logout"} changeScreen={logout} color={"lightblue"} />
       </div>
     </div>

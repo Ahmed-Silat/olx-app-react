@@ -8,11 +8,16 @@ function Signin(props) {
     props.setComponentName("signup");
   };
 
-  const signin = () => {
-    const { email, password } = userInfo;
+  const signin = async () => {
+    try {
+      const { email, password } = userInfo;
 
-    login(email, password);
-    props.setComponentName("dashboard");
+      await login(email, password);
+      props.setComponentName("dashboard");
+    } catch (e) {
+      alert(e.message);
+      // props.setComponentName("signin");
+    }
   };
 
   const updateForm = (e, key) => {
