@@ -50,7 +50,7 @@ function Dashboard(props) {
     //   setStoreData(result);
     //   console.log("receiveData", result);
     // };
-  }, []);
+  });
 
   return (
     <div>
@@ -66,11 +66,12 @@ function Dashboard(props) {
             //   <span>{item.price}</span>
             // </div>
             // <div className="card">
-              <CreateCard
-                title={item.title}
-                description={item.description}
-                price={item.price}
-              />
+            <CreateCard
+              image={item.image}
+              title={item.title}
+              description={item.description}
+              price={item.price}
+            />
             // </div>
           );
         })}

@@ -32,6 +32,11 @@ function CreateAd(props) {
     <div>
       <input type={"file"} onChange={(e) => setImageURL(e.target.files)} />
       <br />
+
+      <img src={imageURL} onChange={(e) => updateAd(e, "image")} />
+
+      <br />
+
       <input
         type={"text"}
         onChange={(e) => updateAd(e, "title")}

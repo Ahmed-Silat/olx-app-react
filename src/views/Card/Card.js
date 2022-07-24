@@ -7,7 +7,7 @@ function CreateCard(props) {
     //   <div>{props.price}</div>
     // </span>
     <div className="card">
-      <img src="img_avatar.png" alt="Avatar" />
+      <img src={props.image} alt="Avatar" />
       <div className="container">
         <h4>
           <b>{props.title}</b>
