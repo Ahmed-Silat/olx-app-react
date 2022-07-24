@@ -13,7 +13,10 @@ import {
   query,
   where,
   doc,
+  setDoc,
 } from "firebase/firestore";
+
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCbLwy0j4Hteme9tBA_rspqtYhWMAgOaWI",
@@ -30,6 +33,8 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
 const db = getFirestore(app);
+
+const storage = getStorage(app);
 
 async function getData() {
   // const querySnapshot = await getDocs(collection(db, "advertisement"));
@@ -75,18 +80,18 @@ async function signUp(form) {
 }
 
 async function login(email, password) {
-  await signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      // ...
-      // alert("Successfully logged in!");
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      alert(errorMessage);
-    });
+  await signInWithEmailAndPassword(auth, email, password);
+  // .then((userCredential) => {
+  //   // Signed in
+  //   const user = userCredential.user;
+  //   // ...
+  //   // alert("Successfully logged in!");
+  // })
+  // .catch((error) => {
+  //   const errorCode = error.code;
+  //   const errorMessage = error.message;
+  //   alert(errorMessage);
+  // });
 }
 
 function ad(data) {
@@ -115,10 +120,25 @@ function getLoggedInUser() {
   });
 }
 
-// async function uploadImage() {}
+async function uploadImage(file) {
+  const imageRef = ref(storage, "profileImages/" + file.name);
 
-// async function updateProfile() {}
+  const uploadImage = await uploadBytes(imageRef, file);
+  const url = await getDownloadURL(uploadImage.ref);
+  return url;
+}
 
-export { signUp, login, ad, getLoggedInUser, getData };
-// uploadImage,
-// updateProfile,
+async function updateProfile(data) {
+  const uid = auth.currentUser.uid;
+  await setDoc(doc(db, "users", uid), data, { merge: true });
+}
+
+export {
+  signUp,
+  login,
+  ad,
+  getLoggedInUser,
+  getData,
+  uploadImage,
+  updateProfile,
+};

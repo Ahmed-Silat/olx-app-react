@@ -7,7 +7,7 @@ import Dashboard from "./views/dashboard/dasboard";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import CustomBtn from "./components/customBtn";
 import { auth, getLoggedInUser } from "./config/firebase";
-import CreateAdd from "./views/Ads/createNewAd";
+import CreateAd from "./views/Ads/createNewAd";
 import ExistingAds from "./views/Ads/existingAds";
 
 function App() {
@@ -35,7 +35,7 @@ function App() {
             <Dashboard setComponentName={setComponentName} />
           ) : null}
           {componentName === "createAd" ? (
-            <CreateAdd setComponentName={setComponentName} />
+            <CreateAd setComponentName={setComponentName} />
           ) : null}
           {componentName === "existingAd" ? (
             <ExistingAds setComponentName={setComponentName} />

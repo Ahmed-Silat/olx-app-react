@@ -3,17 +3,16 @@ import { useState } from "react";
 import Dashboard from "../dashboard/dasboard";
 import { ad, updateProfile, uploadImage } from "../../config/firebase";
 
-function CreateAdd(props) {
+function CreateAd(props) {
   const [data, setData] = useState({});
 
-  const newAdd = async () => {
+  const newAd = async () => {
     try {
       var result = await ad(data);
       // goToDashboard();
+      const url = await uploadImage(imageURL);
+      await updateProfile(data);
       props.setComponentName("dashboard");
-
-      // const url = await uploadImage(imageURL);
-      // await updateProfile(data);
     } catch (e) {
       alert(e.message);
     }
@@ -23,7 +22,7 @@ function CreateAdd(props) {
     props.setComponentName("dashboard");
   };
 
-  const updateAdd = (e, key) => {
+  const updateAd = (e, key) => {
     setData({ ...data, [key]: e.target.value });
   };
 
@@ -35,25 +34,25 @@ function CreateAdd(props) {
       <br />
       <input
         type={"text"}
-        onChange={(e) => updateAdd(e, "title")}
+        onChange={(e) => updateAd(e, "title")}
         placeholder="Enter title"
       />
       <br />
       <input
         type={"text"}
-        onChange={(e) => updateAdd(e, "description")}
+        onChange={(e) => updateAd(e, "description")}
         placeholder="Enter description"
       />
       <br />
       <input
         type={"number"}
-        onChange={(e) => updateAdd(e, "price")}
+        onChange={(e) => updateAd(e, "price")}
         placeholder="Enter price"
       />
       <br />
-      <button onClick={newAdd}>Create Add</button>
+      <button onClick={newAd}>Create Add</button>
       <button onClick={goToDashboard}>Go to dasboard</button>
     </div>
   );
 }
-export default CreateAdd;
+export default CreateAd;
